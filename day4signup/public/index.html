@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+<script>
+    async function singup() {
+        const username = document.getElementById("singup-username").value
+        const password = document.getElementById("singup-password").value
+        console.log(username + password)
+
+        await axios.post("http://localhost:3000/signup", {
+            username: username,
+            password: password
+        })
+        alert("you have signed in ")
+    }
+    async function singin() {
+        const username = document.getElementById('singin-username').value;
+        const password = document.getElementById('singin-password').value;
+        const response = await axios.post('http://localhost:3000/signin', {
+            username: username,
+            password: password
+        })
+        if (response?.data?.token) {
+            localStorage.setItem('token', response.data.token);
+        } else {
+            console.error('Token not found in response');
+        }
+
+
+        alert("singin here ")
+    }
+    async function getIfo() {
+
+           
+           try {
+    const res = await axios.get('http://localhost:3000/me', {
+      headers: { token: localStorage.getItem('token') }
+    });
+
+    console.log(res, " get");
+
+    // hide what you want:
+    document.getElementById('div1').hidden = true;
+    document.getElementById('div4').hidden = true;
+
+    document.getElementById('information').innerHTML =
+      "username: " + res.data.username + " password: " + res.data.password;
+  } catch (error) {
+    console.log('please login here');
+
+    // hide other things when error:
+    document.getElementById('div3').hidden = true;
+    document.getElementById('div2').hidden = true;
+  }
+           
+        }
+        getIfo()
+        function logout()
+        {
+            localStorage.removeItem('token')
+        }
+</script>
+
+<body>
+    <div id="div4">
+        singup
+        <input id="singup-username" type="text" name="username" placeholder="username">
+        <input id="singup-password" type="password" name="password" placeholder="password">
+        <button onclick="singup()" value="singup here">submit</button>
+    </div>
+    <div id="div1">
+        singin
+        <input id="singin-username" type="text" name="usernmae" placeholder="username here">
+        <input id="singin-password" type="password" name="usernmae" placeholder="passwordhere">
+        <button onclick="singin()">singin</button>
+    </div>
+    <div id="div2">
+        user information
+        <div id="information"></div>
+    </div>
+    <div id="div3">
+        <button onclick="logout()">logout</button>
+    </div>
+</body>
+
+</html>
