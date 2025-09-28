@@ -13,28 +13,38 @@ const JWT_SECRET='welcomesarthakpawar';
 
 app.use(express.json());
 
-app.post('/singup', async function(req,res){
-    const requireBody = z.object({
-  email: z.string().min(3).max(100).email(),
-  name: z.string().min(3).max(100),
-  password: z.string().min(3).max(30)
+app.post('/signup', async function (req, res) {
+  const requireBody = z.object({
+    email: z.string().min(3).max(100).email(),
+    name: z.string().min(3).max(100),
+    password: z.string().min(3).max(30)
+  });
+
+  // use safeParse (not safe.parse)
+  const parsed = requireBody.safeParse(req.body);
+
+  if (!parsed.success) {
+    return res.status(400).json({
+      message: 'incorrect details here'
+    });
+  }
+
+  // destructure validated data
+  const { name, email, password } = parsed.data;
+
+  const hashedPassword = await bcrypt.hash(password, 2);
+
+  await UserModel.create({
+    email,
+    password: hashedPassword,
+    name
+  });
+
+  res.json({
+    message: 'user logged in'
+  });
 });
 
-const parsed = requireBody.safeParse(req.body);
-if (!parsed.success) {
-  return res.status(400).json({ message: 'incorrect details here' });
-}
-
-const { email, name, password } = parsed.data;
-const hashedPassword = await bcrypt.hash(password, 10);
-
-await UserModel.create({ email, name, password: hashedPassword });
-
-    res.json({
-        message:"user logged in"
-    })
-    
-})
 
 app.post('/login',async function(req,res)
 {
@@ -85,7 +95,7 @@ function auth(req,res,next)
 }
 
 
-app.post('/ping',function(req,res)
+app.post('/ping',auth,function(req,res)
 {
     res.json({
         message:"this thing is done here"
