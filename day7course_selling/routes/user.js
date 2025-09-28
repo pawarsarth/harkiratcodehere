@@ -1,27 +1,22 @@
+const { Router } = require('express');
+const userRouter = Router();
 
-const {Router}=require('express')
-
-const userRouter=Router()
-
-userRouter.post('/signup',function(req,res){
+userRouter.post('/signup', (req,res)=>{
     res.json({
+        message:"welcome"
+    });
+});
 
-    })
-})
-
-userRouter.post('/signin',function(req,res){
-
+userRouter.post('/signin',(req,res)=>{
     res.json({
         message:"post user signin"
-    })
-})
-userRouter.get('/purchases',function(req,res){
+    });
+});
+
+userRouter.get('/purchases',(req,res)=>{
     res.json({
         message:"purchases"
-    })
+    });
+});
 
-})
-
-module.exports={
-    userRouter:userRouter
-}
+module.exports = { userRouter };  // ✅
