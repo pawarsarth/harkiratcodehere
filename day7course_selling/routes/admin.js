@@ -75,13 +75,13 @@ adminRouter.post('/signin',async function (req, res) {
 
 adminRouter.post('/course', adminMiddleware, async function (req, res) {
     const adminId=req.userId;
-    const{title,description,imageurl,price}=req.body;
+    const{title,description,imageUrl,price}=req.body;
 
 
    const course= await courseModel.create({
         title:title,
         price:price,
-        imageUrl:imageurl,
+        imageUrl:imageUrl,
         description:description,
         creatorId:adminId
 
@@ -95,14 +95,42 @@ adminRouter.post('/course', adminMiddleware, async function (req, res) {
 
 });
 
-adminRouter.put('/', function (req, res) {
+adminRouter.put('/course',adminMiddleware, async function (req, res) {
 
     //need to implement this here 
+    const adminId=req.userId;
+    const {title,description,imageUrl,price,courseId}=req.body;
+    const course=await courseModel.updateOne({
+            _id:courseId,
+        creatorId:adminId
+    
+    },{
+        title:title,
+        description:description,
+        price:price,
+        imageUrl:imageUrl
+
+    })
+    res.json({
+        message:"course updated",
+        courseId:course._id
+    })
+    
     res.json({ message: "course updated" });
 });
 
-adminRouter.put('/bulk', function (req, res) {
-    res.json({ message: "bulk course update" });
+adminRouter.get('/course/bulk',adminMiddleware, async function (req, res) {
+
+    const adminId=req.userId;
+    const course =await courseModel.find({
+        creatorId:adminId
+    })
+
+
+
+    res.json({ message: "bulk course update" ,
+        course
+    });
 });
 
 module.exports = {
