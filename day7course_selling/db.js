@@ -24,10 +24,8 @@ const adminSchema=new Schema({
     lastName: String,
 })
 const PurchaseSchema=new Schema({
-    _id:ObjectId,
-    courseId:ObjectId,
-    userId:ObjectId
-
+   userId: ObjectId,
+    courseId: ObjectId
 })
 const   userModel=mongoose.model('user',userSchema)
 const purchaseModel=mongoose.model('purchase',PurchaseSchema)
