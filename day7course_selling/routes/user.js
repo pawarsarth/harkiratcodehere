@@ -10,7 +10,7 @@ const {userModel,purchaseModel, courseModel}=require('../db')
 userRouter.post('/signup',async  (req,res)=>{
 
      const requireBody=z.object({
-        email:z.string().min(3).max(100).email(),
+       email:z.string().min(3).max(100).email(),
         firstName:z.string().min(3).max(100), 
         password:z.string().min(3).max(300),
         lastName:z.string().min(3).max(100)
