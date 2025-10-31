@@ -1,10 +1,11 @@
 import express from 'express'
 import jwt from 'jsonwebtoken';
-import { content,user } from './db.js';
-import bcrypt from 'bcrypt'
+import { content,link,user } from './db.js';
+import bcrypt, { hash } from 'bcrypt'
 import z from 'zod'
 import { userMiddleware } from './middleware.js';
-
+import mongoose from "mongoose";
+import { random } from './utils.js';
 
 
 const app = express()
@@ -116,27 +117,98 @@ app.get('/api/v1/content',userMiddleware,async (req,res)=>{
 
 })
 
-app.delete('/api/v1/delete',userMiddleware,async  (req, res) => {
-
-  const contentId=req.body.contentId;
-
-  await content.deleteMany({
-    contentId,
+app.delete('/api/v1/delete', userMiddleware, async (req, res) => {
+  try {
+    const { contentId } = req.body;
     //@ts-ignore
-    userId:req.userId
+    const userId = new mongoose.Types.ObjectId(req.userId);
+
+    const result = await content.deleteOne({
+      _id: new mongoose.Types.ObjectId(contentId),
+      userId
+    });
+
+    console.log("Delete result:", result);
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Content not found or unauthorized" });
+    }
+
+    res.json({ message: "Content deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+app.post('/api/v1/share', userMiddleware,async(req, res) => {
+
+   const share=req.body.share;
+   if(share)
+   {
+        const exitLink=await link.findOne({
+          //@ts-ignore
+          userId:req.userId
+        })
+
+        if(exitLink)
+        {
+          res.json({
+            hash:exitLink.hash
+          })
+          return;
+        }
+        const hash=random(10)
+        await link.create({
+          //@ts-ignore
+          userId:req.userId,
+          hash:hash
+        })
+
+   }
+   else 
+   {
+    await link.deleteOne({
+      //@ts-ignore
+      userId:req.userId
+    })
+   }
+
+   res.json({
+    message:"updaet link done "
+   })
+
+})
+app.get('/api/v1/brain/:shareLink', async (req, res) => {
+  const hash=req.params.shareLink;
+
+  const link1=await link.findOne({
+      hash 
   })
-  res.json({
-    message:"content deleted "
+  if(!link1)
+  {
+    res.json({
+      message:"link not found here"
+    })
+    return;
+  }
+
+const con= await content.findOne({
+  userId:link1.userId
+})
+
+const us1= await user.findOne({
+    _id:link1.userId
+})
+
+res.json({
+  content:con,
+  username:us1?.username
+})
+
   })
 
-//conten is not deleting check it ones 
-})
-app.post('/api/v1/share', (req, res) => {
 
-})
-app.get('/api/v1/brain/:shareLink', (req, res) => {
-
-})
 app.listen(3000)
 
 
