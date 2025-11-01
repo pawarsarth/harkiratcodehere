@@ -5,7 +5,8 @@ interface butttonProps{
   varient:'primary'|'secondary',
   text:string,
   startIcon?:ReactElement
-  onClick?:()=> void
+  onClick?:()=> void,
+    fullWidth?:boolean
 
 }
 const varientClass ={
@@ -16,10 +17,10 @@ const varientClass ={
 }
 const defaultStyle='px-4 py-2 rounded-md font-light flex items-center'
 
-export function Button({varient,text,startIcon,onClick}:butttonProps)
+export function Button({varient,text,startIcon,onClick,fullWidth}:butttonProps)
 {
     return(
-      <button onClick={onClick} className={varientClass[varient] +" "+defaultStyle}>
+      <button onClick={onClick} className={varientClass[varient] +" "+defaultStyle +`${fullWidth?"   w-full":""}`}>
         <div className="pr-2">
            {startIcon}
         </div>

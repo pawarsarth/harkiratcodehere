@@ -1,5 +1,6 @@
 import { Button } from './Button'
 import { CrossIcon } from './CrossIcon'
+import { Input } from './Input'
 
 export function CreateContentModel({ open, onClose }) {
     return (
@@ -29,11 +30,3 @@ export function CreateContentModel({ open, onClose }) {
     )
 }
 
-function Input({ onChange, placeholder }: { onChange: () => void }) {
-    return (
-        <div>
-
-            <input placeholder={placeholder} type="text" className='px-4 py-2 border rounded-2xl mt-3' onChange={onchange} />
-        </div>
-    )
-}
