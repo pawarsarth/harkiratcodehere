@@ -12,11 +12,15 @@ const varientClass ={
   "secondary":"bg-purple-200 text-purple-400"
 
 }
-const defaultStyle='px-4 py-2 rounded-md'
+const defaultStyle='px-4 py-2 rounded-md font-light flex items-center'
 
 export function Button({varient,text,startIcon}:butttonProps)
 {
     return(
-      <button className={varientClass[varient] +" "+defaultStyle}>{text}</button>
+      <button className={varientClass[varient] +" "+defaultStyle}>
+        <div className="pr-2">
+           {startIcon}
+        </div>
+        {text}</button>
     )
 }
