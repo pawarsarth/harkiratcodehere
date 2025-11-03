@@ -1,0 +1,20 @@
+{
+  "name": "day10_postgress_db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc -b && node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.5",
+    "@types/pg": "^8.15.6",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "typescript": "^5.9.3"
+  }
+}
