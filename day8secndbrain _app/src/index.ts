@@ -6,11 +6,22 @@ import z from 'zod'
 import { userMiddleware } from './middleware.js';
 import mongoose from "mongoose";
 import { random } from './utils.js';
+import cors from 'cors'
 
 
 const app = express()
+
+
 app.use(express.json())
+
+app.use(cors({
+  origin: "http://localhost:5173", // ✅ no trailing slash
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 const JWT_SECRET='3rnrj3rj3rn'
+
+
 
 app.post('/api/v1/signup', async (req, res) => {
 
@@ -69,7 +80,7 @@ app.post("/api/v1/signin", async (req, res) => {
     }
 
     // 🪪 3️⃣ Generate JWT token
-    const token = jwt.sign({ id: oneman._id }, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: oneman._id }, JWT_SECRET);
 
     // ✅ 4️⃣ Send success response
     res.status(200).json({
@@ -89,6 +100,7 @@ app.post('/api/v1/content',userMiddleware, async (req, res) => {
     const link=req.body.link;
     const type=req.body.type;
     const title=req.body.title;
+    console.log('content added')
 
     await content.create({
         link:link,

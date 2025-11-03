@@ -19,7 +19,7 @@ const tagSchema=new Schema({
 const tag=mongoose.model('tag',tagSchema)
 
 
-const contentTypes=['images','video','article','audio']
+const contentTypes=['youtube','twitter','video','article','audio']
 
 const contentSchema=new Schema({
 

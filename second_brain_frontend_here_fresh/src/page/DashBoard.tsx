@@ -6,9 +6,12 @@ import { PlusIcon } from '../icons/PlusIcon'
 import { Card } from '../components/Card'
 import { CreateContentModel } from '../components/CreateContentModal'
 import { SideBar } from '../components/SideBar'
+import { useContent } from '../hooks/useContent'
 
 function DashBoard() {
   const [modelOpen, setModalOpen] = useState(false)
+  const contents=useContent()
+
 
   return (
     <div>
@@ -25,8 +28,17 @@ function DashBoard() {
           <Button varient="secondary" text="add text" startIcon={<PlusIcon></PlusIcon>}></Button>
         </div>
         <div className='flex gap-2'>
-          <Card type="twitter" title="first tweet" link="https://x.com/PawarSarthak24/status/1979778871546528081"></Card>
-          <Card type="youtube" title='first youtube video ' link='https://youtu.be/WpBn9w-Js_c?si=P7UWcs94zy5sCNHl'></Card>
+         {contents.map(({ type, link, title }, index) => (
+  <Card
+    key={index}
+    type={type}
+    link={link}
+    title={title}
+  />
+))}
+
+          {/* <Card type="twitter" title="first tweet" link="https://x.com/PawarSarthak24/status/1979778871546528081"></Card>
+          <Card type="youtube" title='first youtube video ' link='https://youtu.be/WpBn9w-Js_c?si=P7UWcs94zy5sCNHl'></Card> */}
 
         </div>
       </div>

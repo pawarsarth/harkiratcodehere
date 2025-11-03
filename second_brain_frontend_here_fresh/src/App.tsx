@@ -1,14 +1,18 @@
-import DashBoard from "./page/DashBoard"
+
 import './App.css'
+import { Signin } from "./page/Signin"
+import { Signup } from "./page/Signup"
+import { BrowserRouter,Routes,Route } from "react-router-dom"
+import DashBoard from './page/DashBoard'
 
-import { Signin } from "./page/signin"
-
-
-export function App()
-{
+export function App() {
   return (
-  //   <DashBoard></DashBoard>
-  <Signin></Signin>
- 
+          <BrowserRouter>
+          <Routes>
+              <Route path='/signup' element={<Signup></Signup>}></Route>
+              <Route path='/signin' element={<Signin></Signin>}></Route>
+              <Route path='/dashboard' element={<DashBoard></DashBoard>}></Route>
+          </Routes>
+          </BrowserRouter>
    )
 }
