@@ -12,10 +12,14 @@ const app=express()
 app.use(express.json())
 
 app.use(cors({
-  origin: "http://localhost:5173", // ✅ no trailing slash
+  origin: [
+    "http://localhost:5173", // for local testing
+    "https://linked-clone-frontend.onrender.com" // 🔥 your deployed frontend URL
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 
 const JWT_SECRET='sarthak_pawar';
 
