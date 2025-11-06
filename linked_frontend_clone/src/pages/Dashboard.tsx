@@ -15,6 +15,7 @@ export function Dashboard() {
           <p className="text-gray-600">No posts found...</p>
         ) : (
           contents.map((post) => (
+            //@ts-ignore
             <Card key={post._id} content={post} />
           ))
         )}

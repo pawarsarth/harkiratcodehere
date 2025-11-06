@@ -16,7 +16,7 @@ const varientClass={
 const defaultStyle='px-4 py-2 rounded-md font-light flex items-center'
 
 
-export function Button({varient,text,startIcon,onClick,fullWidth}:butttonProps)
+export function Button({varient,text,onClick,fullWidth}:butttonProps)
 {
     return(
         <div>
