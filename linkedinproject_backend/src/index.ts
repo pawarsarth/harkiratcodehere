@@ -126,7 +126,7 @@ const posts = await postModel
   .populate("likes", "username") // users who liked the post
   .populate("comments.userId", "username"); // users who commented
 
-res.json({ posts });
+res.json({posts});
 
 
 })
